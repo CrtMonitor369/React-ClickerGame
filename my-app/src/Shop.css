@@ -1,0 +1,27 @@
+.Shop-Menu
+{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-right: 10%;
+}
+.Shop-Menu button
+{
+     border-radius: 15%;
+    width: 130%;
+    border-color: rgb(255, 0, 174);
+    background-color: rgb(229, 200, 255);
+    transition:all 0.15s;
+
+}
+.Shop-Menu h3
+{
+    color: rgb(0, 236, 253);
+     text-shadow: 2px 2px rgb(255, 0, 174);
+}
+.Shop-Menu button:hover
+{
+  transform:scale(90%);
+}
+
