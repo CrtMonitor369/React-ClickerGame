@@ -1,4 +1,5 @@
 import "./Shop.css"
+import Button from "./Button.jsx"
 
 function Shop({shop_elements, buy_function})
 {
@@ -10,9 +11,11 @@ function Shop({shop_elements, buy_function})
            
             <ul>
                 
-                {shop_elements.map(shop_element => <h3>{shop_element[0]}<button onClick={()=>{
-                    buy_function(shop_element[0], shop_element[1])
-                }}>BUY {shop_element[1]}€</button></h3>)}
+                {shop_elements.map(shop_element => <h3>{shop_element[0]}<Button onPressed={()=>{buy_function(shop_element[0], shop_element[1])}}
+                content={shop_element[1]+"€"}/> 
+                    
+                </h3>)
+                }
                 
             </ul>
            

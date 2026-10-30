@@ -1,19 +1,16 @@
 import "./Clicker.css"
+import Button from "./Button"
+import { render, fireEvent } from '@testing-library/react';
 
-
-function Clicker({onPressed, points})
+function Clicker({onPressed, points, automatorLvl})
 {
     
-    
+   
     return (
         <div className="Clicker-Area">
             
-            <button onClick={
-                ()=>{onPressed()
-                    document.querySelector("h1").classList.add("DownwardMotion");
-                    setTimeout(()=>{document.querySelector("h1").classList.remove("DownwardMotion");}, 150)
-                }}>Click Me!</button>
-
+            
+            <Button id="clickButton" onPressed={onPressed} points={points} content={"press me!"}></Button>
             <h1>{points}</h1>
         </div>
     )
