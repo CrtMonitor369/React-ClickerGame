@@ -16,6 +16,13 @@ h1
     transition:all 0.15s;
 }
 
+h4
+{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: rgb(0, 236, 253);
+    text-shadow: 2px 2px rgb(255, 0, 174);
+}
+
 body
 {
     background-color: black;

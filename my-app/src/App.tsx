@@ -4,18 +4,21 @@ import { useState } from 'react';
 import Shop from "./Shop.tsx"
 import "./App.css"
 
+
+
 function App() {
     
+
     const [points, setPoints] = useState(0)
-    const [shopItems, setShopItems] = useState([
-        ["Multiplier", 10],
-         
-        ])
+    const [shopItems, setShopItems] = useState(
+     [["Multiplier", 10]]
+    )
     const [MultiplierLvl, setMultiplierLvl] = useState(1)
     const [gameState, setGameState] = useState("StartScreen")
+    const [rebirthCount, setRebirth] = useState(0)
     function onPressClicker()
     {
-        setPoints(points+1*MultiplierLvl)
+        setPoints((points+(1+0.25*rebirthCount)*MultiplierLvl))
     }
 
     function onPressBuy(name, cost)
@@ -36,7 +39,19 @@ function App() {
             }
         
     }
-    
+    function onPressRebirth()
+    {
+        if(points >= (10+rebirthCount*30))
+        {
+            
+            setPoints(0)
+            setRebirth(rebirthCount+1)
+            setMultiplierLvl(1)
+            
+            setShopItems([["Multiplier", 10]])
+            
+        }
+    }
     if(gameState=="StartScreen")
     {
         return (<>
@@ -51,8 +66,8 @@ function App() {
      <Clicker onPressed={onPressClicker} points = {points}></Clicker>
 
       <div>
-        <Button content={"Rebirth"}></Button>
-        <h4>Required points</h4>
+        <Button content={"Rebirth"} onPressed={onPressRebirth}></Button>
+        <h4>Required points {10+rebirthCount*30}</h4>
       </div>
      <Shop shop_elements={shopItems} buy_function={onPressBuy}></Shop>
     </>)
