@@ -1,34 +1,74 @@
 
+
 import Clicker from "./Clicker.jsx";
 import Button from "./Button.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Shop from "./Shop.tsx";
 import "./App.css";
+import DoomFire from "./DoomFire.jsx";
+import JigsawPuzzle from "./JigsawPuzzle.tsx";
 
 function App() {
     const [points, setPoints] = useState(0);
+
     const [shopItems, setShopItems] = useState([
-        ["Multiplier", 10]
+        ["Multiplier", 10],
+        ["Auto Clicker", 50]
     ]);
+
     const [MultiplierLvl, setMultiplierLvl] = useState(1);
+    const [AutoClickerLvl, setAutoClickerLvl] = useState(0);
+
     const [gameState, setGameState] = useState("StartScreen");
     const [rebirthCount, setRebirth] = useState(0);
 
-   
+    const [isSaving, setIsSaving] = useState(false);
+    const [isFading, setIsFading] = useState(false);
+
+    const [fireActive, setFireActive] = useState(false);
+
+    useEffect(() => {
+        if (AutoClickerLvl <= 0) return;
+
+        const interval = setInterval(() => {
+            setPoints(prev =>
+                prev + AutoClickerLvl * MultiplierLvl
+            );
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [AutoClickerLvl, MultiplierLvl]);
+
+    useEffect(() => {
+        if (gameState !== "Game") return;
+
+        const interval = setInterval(() => {
+            onPressSave();
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [gameState, points, rebirthCount, MultiplierLvl, AutoClickerLvl, shopItems]);
+
     function onPressSave() {
+        setIsSaving(true);
+
         const saveData = {
             Points: points,
             RebirthCount: rebirthCount,
             MultiplierLvl: MultiplierLvl,
+            AutoClickerLvl: AutoClickerLvl,
             ShopItems: shopItems
         };
 
         localStorage.setItem("save_file", JSON.stringify(saveData));
 
         console.log("Game saved!");
+
+        setTimeout(() => {
+            setIsSaving(false);
+        }, 1000);
     }
 
-    
     function loadGame() {
         const savedData = localStorage.getItem("save_file");
 
@@ -39,8 +79,13 @@ function App() {
                 setPoints(loadedSave.Points ?? 0);
                 setRebirth(loadedSave.RebirthCount ?? 0);
                 setMultiplierLvl(loadedSave.MultiplierLvl ?? 1);
+                setAutoClickerLvl(loadedSave.AutoClickerLvl ?? 0);
+
                 setShopItems(
-                    loadedSave.ShopItems ?? [["Multiplier", 10]]
+                    loadedSave.ShopItems ?? [
+                        ["Multiplier", 10],
+                        ["Auto Clicker", 50]
+                    ]
                 );
 
                 console.log("Game loaded!");
@@ -52,55 +97,97 @@ function App() {
         setGameState("Game");
     }
 
-    
+    function handlePlay() {
+        setIsFading(true);
+
+        setTimeout(() => {
+            loadGame();
+        }, 500);
+    }
+
     function onPressClicker() {
         setPoints(prev =>
             prev + (1 + 0.25 * rebirthCount) * MultiplierLvl
         );
     }
 
-    
     function onPressBuy(name, cost) {
         if (cost <= points) {
+
             if (name === "Multiplier") {
                 setMultiplierLvl(prev => prev + 1);
 
-                setShopItems(prev => [
-                    ["Multiplier", 4 * parseInt(prev[0][1])]
-                ]);
+                setShopItems(prev =>
+                    prev.map(item =>
+                        item[0] === "Multiplier"
+                            ? ["Multiplier", 4 * item[1]]
+                            : item
+                    )
+                );
+            }
+
+            if (name === "Auto Clicker") {
+                setAutoClickerLvl(prev => prev + 1);
+
+                setShopItems(prev =>
+                    prev.map(item =>
+                        item[0] === "Auto Clicker"
+                            ? ["Auto Clicker", Math.floor(item[1] * 1.5)]
+                            : item
+                    )
+                );
             }
 
             setPoints(prev => prev - cost);
         }
     }
 
-  
     function onPressRebirth() {
         if (points >= (10 + rebirthCount * 30)) {
             setPoints(0);
             setRebirth(prev => prev + 1);
+
             setMultiplierLvl(1);
-            setShopItems([["Multiplier", 10]]);
+            setAutoClickerLvl(0);
+
+            setShopItems([
+                ["Multiplier", 10],
+                ["Auto Clicker", 50]
+            ]);
         }
     }
 
-  
+    function onPressClear() {
+        localStorage.removeItem("save_file");
+
+        setFireActive(true);
+    }
+
     if (gameState === "StartScreen") {
-        return (
-            <>
+    return (
+        <>
+            <div className={`StartScreen ${isFading ? "fade-out" : ""}`}>
                 <h1>Clicker Game</h1>
 
                 <Button
                     content={"Press Play"}
-                    onPressed={loadGame}
+                    onPressed={handlePlay}
                 />
-                
-                <Button content={"Clear Save Data"}/>
-            </>
-        );
-    }
 
-  
+                <Button
+                    content={"Clear Save Data"}
+                    onPressed={onPressClear}
+                />
+            </div>
+
+            <DoomFire
+                active={fireActive}
+                onFinished={() => setFireActive(false)}
+            />
+        </>
+    );
+}
+
     return (
         <>
             <Clicker
@@ -119,6 +206,12 @@ function App() {
                 </h4>
             </div>
 
+            <h3>Upgrade Stats</h3>
+
+            <p>Multiplier Level: {MultiplierLvl}</p>
+            <p>Auto Clicker Level: {AutoClickerLvl}</p>
+            <p>Auto Clicker PPS: {AutoClickerLvl * MultiplierLvl}</p>
+
             <Shop
                 shop_elements={shopItems}
                 buy_function={onPressBuy}
@@ -128,6 +221,12 @@ function App() {
                 content={"Save"}
                 onPressed={onPressSave}
             />
+          
+            {isSaving && (
+                <h3 className="Saving">Saving...</h3>
+            )}
+            <JigsawPuzzle/>
+            
         </>
     );
 }
