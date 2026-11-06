@@ -3,10 +3,10 @@
 import Clicker from "./Clicker.jsx";
 import Button from "./Button.jsx";
 import { useState, useEffect } from "react";
-import Shop from "./Shop.tsx";
+import Shop from "./Shop.jsx";
 import "./App.css";
 import DoomFire from "./DoomFire.jsx";
-import JigsawPuzzle from "./JigsawPuzzle.tsx";
+import JigsawPuzzle from "./JigsawPuzzle.jsx";
 
 function App() {
     const [points, setPoints] = useState(0);
@@ -24,7 +24,6 @@ function App() {
 
     const [isSaving, setIsSaving] = useState(false);
     const [isFading, setIsFading] = useState(false);
-
     const [fireActive, setFireActive] = useState(false);
 
     useEffect(() => {
@@ -141,7 +140,10 @@ function App() {
             setPoints(prev => prev - cost);
         }
     }
-
+    function increasePoints(a)
+    {
+        setPoints(prev => prev + a)
+    }
     function onPressRebirth() {
         if (points >= (10 + rebirthCount * 30)) {
             setPoints(0);
@@ -225,7 +227,7 @@ function App() {
             {isSaving && (
                 <h3 className="Saving">Saving...</h3>
             )}
-            <JigsawPuzzle/>
+            <JigsawPuzzle increasePoints={increasePoints}/>
             
         </>
     );
