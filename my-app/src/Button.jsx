@@ -1,6 +1,7 @@
 import "./Button.css"
-function Button({onPressed, points, content})
+function Button({onPressed, points, content, shouldRender = true})
 {
+    if(!shouldRender){return}
 return(
     <button onClick={
                 ()=>{onPressed()

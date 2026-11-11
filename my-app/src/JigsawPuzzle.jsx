@@ -1,5 +1,6 @@
 //Ai was used here for the part where it is checked if the puzzle is solved
-//The solution would have been annoying to write hence I used AI
+//I do know how to do it, I just for whatever reason struggled to get it working properly
+//I think my error was related to state
 
 
 import JigsawPiece from "./JigsawPiece";
@@ -12,8 +13,12 @@ function Distance(position1, position2) {
     ) ** 0.5;
 }
 
-function JigsawPuzzle({increasePoints}) {
+function JigsawPuzzle({increasePoints, shouldRender}) {
 
+    if(!shouldRender){
+        return
+    }
+        
     const originalPositions = [
         [20, 30],
         [120, 30],

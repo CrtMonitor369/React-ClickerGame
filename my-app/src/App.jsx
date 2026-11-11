@@ -13,7 +13,8 @@ function App() {
 
     const [shopItems, setShopItems] = useState([
         ["Multiplier", 10],
-        ["Auto Clicker", 50]
+        ["Auto Clicker", 50],
+        ["Jigsaw Puzzle", 1000]
     ]);
 
     const [MultiplierLvl, setMultiplierLvl] = useState(1);
@@ -25,7 +26,7 @@ function App() {
     const [isSaving, setIsSaving] = useState(false);
     const [isFading, setIsFading] = useState(false);
     const [fireActive, setFireActive] = useState(false);
-
+    const [boughtJigsaw, setBoughtJigsaw] = useState(false);
     useEffect(() => {
         if (AutoClickerLvl <= 0) return;
 
@@ -52,12 +53,13 @@ function App() {
         setIsSaving(true);
 
         const saveData = {
-            Points: points,
-            RebirthCount: rebirthCount,
-            MultiplierLvl: MultiplierLvl,
-            AutoClickerLvl: AutoClickerLvl,
-            ShopItems: shopItems
-        };
+    Points: points,
+    RebirthCount: rebirthCount,
+    MultiplierLvl: MultiplierLvl,
+    AutoClickerLvl: AutoClickerLvl,
+    ShopItems: shopItems,
+    BoughtJigsaw: boughtJigsaw
+};
 
         localStorage.setItem("save_file", JSON.stringify(saveData));
 
@@ -79,7 +81,7 @@ function App() {
                 setRebirth(loadedSave.RebirthCount ?? 0);
                 setMultiplierLvl(loadedSave.MultiplierLvl ?? 1);
                 setAutoClickerLvl(loadedSave.AutoClickerLvl ?? 0);
-
+                setBoughtJigsaw(loadedSave.BoughtJigsaw ?? false);
                 setShopItems(
                     loadedSave.ShopItems ?? [
                         ["Multiplier", 10],
@@ -103,7 +105,14 @@ function App() {
             loadGame();
         }, 500);
     }
-
+    function d_GetFreeMoney()
+    {
+        setPoints(Infinity)
+    }
+    function d_GetTheOppositeOfInfiniteMoney()
+    {
+        setPoints(0)
+    }
     function onPressClicker() {
         setPoints(prev =>
             prev + (1 + 0.25 * rebirthCount) * MultiplierLvl
@@ -135,7 +144,15 @@ function App() {
                             : item
                     )
                 );
+                
             }
+            if (name === "Jigsaw Puzzle") {
+            setShopItems(prev =>
+                prev.filter(item => item[0] !== "Jigsaw Puzzle")
+            );
+
+            setBoughtJigsaw(true);
+        }
 
             setPoints(prev => prev - cost);
         }
@@ -218,19 +235,28 @@ function App() {
                 shop_elements={shopItems}
                 buy_function={onPressBuy}
             />
-
+            
+         
             <Button
                 content={"Save"}
                 onPressed={onPressSave}
             />
-          
+            <Button 
+            content={"[debug] Unlimited money"}
+            onPressed={d_GetFreeMoney}
+            />
+            <Button 
+            content={"[debug] Pay your taxes"}
+            onPressed={d_GetTheOppositeOfInfiniteMoney}
+            />
             {isSaving && (
                 <h3 className="Saving">Saving...</h3>
             )}
-            <JigsawPuzzle increasePoints={increasePoints}/>
+           <JigsawPuzzle increasePoints={increasePoints} shouldRender = {boughtJigsaw}/>
             
         </>
     );
+     
 }
 
 export default App;
