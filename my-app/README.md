@@ -1,32 +1,24 @@
-# React + TypeScript + Vite
+# Game name : Clicker Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+#### The game's Idea :
 
-Currently, two official plugins are available:
+The game's idea is to click a button acrue points, use said points to purchase upgrades with which you can gain points more effectively.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+#### Used technologies : 
+##### React
+##### JS
 
-## Expanding the Oxlint configuration
+#### Used technologies :
+##### Tone.js
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+#### Installation guide:
+It's a webpage, just download it and then go into the my-app folder inside of the downloaded folder
+and then
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+#### Starting
+
+Write npm run dev in the console inside the folder and then in a browser go to localhost:[the port here]
+
