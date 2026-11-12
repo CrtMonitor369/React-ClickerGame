@@ -5,7 +5,7 @@
 
 import JigsawPiece from "./JigsawPiece";
 import { useState, useEffect } from "react";
-
+import * as Tone from "tone";
 function Distance(position1, position2) {
     return (
         (position2.x - position1.x) ** 2 +
@@ -14,7 +14,7 @@ function Distance(position1, position2) {
 }
 
 function JigsawPuzzle({increasePoints, shouldRender}) {
-
+    
     if(!shouldRender){
         return
     }
@@ -128,10 +128,13 @@ function JigsawPuzzle({increasePoints, shouldRender}) {
 
         // All pieces connected when their distances are correct
         if (connected.every(distance => distance < 80)) {
-
+            
             setTimeout(() => {
                 increasePoints(1)
                 setJigsawPiecesPosition(originalPositions);
+                 const synth = new Tone.Synth().toDestination();
+                synth.triggerAttackRelease("D3", "16n");
+             
             }, 1000);
 
         }

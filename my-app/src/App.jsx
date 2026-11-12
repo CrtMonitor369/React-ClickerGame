@@ -7,8 +7,13 @@ import Shop from "./Shop.jsx";
 import "./App.css";
 import DoomFire from "./DoomFire.jsx";
 import JigsawPuzzle from "./JigsawPuzzle.jsx";
+import * as Tone from "tone";
+
+
+
 
 function App() {
+    const synth = new Tone.Synth().toDestination();
     const [points, setPoints] = useState(0);
 
     const [shopItems, setShopItems] = useState([
@@ -22,11 +27,11 @@ function App() {
 
     const [gameState, setGameState] = useState("StartScreen");
     const [rebirthCount, setRebirth] = useState(0);
-
     const [isSaving, setIsSaving] = useState(false);
     const [isFading, setIsFading] = useState(false);
     const [fireActive, setFireActive] = useState(false);
     const [boughtJigsaw, setBoughtJigsaw] = useState(false);
+    
     useEffect(() => {
         if (AutoClickerLvl <= 0) return;
 
@@ -114,6 +119,7 @@ function App() {
         setPoints(0)
     }
     function onPressClicker() {
+        
         setPoints(prev =>
             prev + (1 + 0.25 * rebirthCount) * MultiplierLvl
         );
@@ -191,6 +197,8 @@ function App() {
                 <Button
                     content={"Press Play"}
                     onPressed={handlePlay}
+                    note={"D3"}
+                    duration={"16n"}
                 />
 
                 <Button
