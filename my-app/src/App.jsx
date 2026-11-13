@@ -189,7 +189,10 @@ function App() {
             setShopItems(defaultShop(boughtJigsaw));
         }
     }
-
+    function toMainMenu(){
+        setGameState("StartScreen")
+        setIsFading(false)
+    }
     function onPressClear() {
         localStorage.removeItem("save_file");
 
@@ -283,6 +286,10 @@ function App() {
                 <Button
                     content={"[debug] Pay your taxes"}
                     onPressed={d_GetTheOppositeOfInfiniteMoney}
+                />
+                <Button
+                    content={"Main Menu"}
+                    onPressed={toMainMenu}
                 />
                 {isSaving && (
                     <h3 className="Saving">Saving...</h3>
