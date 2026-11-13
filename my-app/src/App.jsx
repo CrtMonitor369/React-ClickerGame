@@ -6,6 +6,7 @@ import Shop from "./Shop.jsx";
 import "./App.css";
 import DoomFire from "./DoomFire.jsx";
 import JigsawPuzzle from "./JigsawPuzzle.jsx";
+import { initMusic, setMusicMuted } from "./Music.js";
 
 // The shop as it looks at the start (and after a rebirth)
 function defaultShop(boughtJigsaw = false) {
@@ -34,6 +35,15 @@ function App() {
     const [isFading, setIsFading] = useState(false);
     const [fireActive, setFireActive] = useState(false);
     const [boughtJigsaw, setBoughtJigsaw] = useState(false);
+    const [musicOn, setMusicOn] = useState(true);
+    const [musicSeed, setMusicSeed] = useState(null);
+
+    // Background music starts on the first click, seeded by mouse position and time
+    useEffect(() => initMusic(setMusicSeed), []);
+
+    useEffect(() => {
+        setMusicMuted(!musicOn);
+    }, [musicOn]);
 
     useEffect(() => {
         if (AutoClickerLvl <= 0) return;
@@ -263,6 +273,10 @@ function App() {
                     onPressed={onPressSave}
                 />
                 <Button
+                    content={musicOn ? "Music: On" : "Music: Off"}
+                    onPressed={() => setMusicOn(prev => !prev)}
+                />
+                <Button
                     content={"[debug] Unlimited money"}
                     onPressed={d_GetFreeMoney}
                 />
@@ -272,6 +286,9 @@ function App() {
                 />
                 {isSaving && (
                     <h3 className="Saving">Saving...</h3>
+                )}
+                {musicSeed !== null && (
+                    <p>Music seed: {musicSeed}</p>
                 )}
             </div>
         </>

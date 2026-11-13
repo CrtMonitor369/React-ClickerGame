@@ -1,11 +1,4 @@
 
-/*
-This part is written by AI
-The shtick though is that we have some canvas element, then we manipulate it
-
-In essence all it's doing is having a source, and based on that and a random value calculating the intensity at each spot besides the source
-
-*/
 
 
 import { useEffect, useRef } from "react";

@@ -1,6 +1,4 @@
-//Ai was used here for the part where it is checked if the puzzle is solved
-//I do know how to do it, I just for whatever reason struggled to get it working properly
-//I think my error was related to state
+
 
 
 import JigsawPiece from "./JigsawPiece";

@@ -1,4 +1,4 @@
-import "./Clicker.css"
+
 import Button from "./Button"
 
 function Clicker({ onPressed, points }) {
