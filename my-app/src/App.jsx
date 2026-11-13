@@ -1,5 +1,4 @@
 
-
 import Clicker from "./Clicker.jsx";
 import Button from "./Button.jsx";
 import { useState, useEffect } from "react";
@@ -7,20 +6,24 @@ import Shop from "./Shop.jsx";
 import "./App.css";
 import DoomFire from "./DoomFire.jsx";
 import JigsawPuzzle from "./JigsawPuzzle.jsx";
-import * as Tone from "tone";
 
-
-
-
-function App() {
-    const synth = new Tone.Synth().toDestination();
-    const [points, setPoints] = useState(0);
-
-    const [shopItems, setShopItems] = useState([
+// The shop as it looks at the start (and after a rebirth)
+function defaultShop(boughtJigsaw = false) {
+    const items = [
         ["Multiplier", 10],
         ["Auto Clicker", 50],
         ["Jigsaw Puzzle", 1000]
-    ]);
+    ];
+
+    return boughtJigsaw
+        ? items.filter(item => item[0] !== "Jigsaw Puzzle")
+        : items;
+}
+
+function App() {
+    const [points, setPoints] = useState(0);
+
+    const [shopItems, setShopItems] = useState(defaultShop());
 
     const [MultiplierLvl, setMultiplierLvl] = useState(1);
     const [AutoClickerLvl, setAutoClickerLvl] = useState(0);
@@ -31,7 +34,7 @@ function App() {
     const [isFading, setIsFading] = useState(false);
     const [fireActive, setFireActive] = useState(false);
     const [boughtJigsaw, setBoughtJigsaw] = useState(false);
-    
+
     useEffect(() => {
         if (AutoClickerLvl <= 0) return;
 
@@ -52,19 +55,19 @@ function App() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [gameState, points, rebirthCount, MultiplierLvl, AutoClickerLvl, shopItems]);
+    }, [gameState, points, rebirthCount, MultiplierLvl, AutoClickerLvl, shopItems, boughtJigsaw]);
 
     function onPressSave() {
         setIsSaving(true);
 
         const saveData = {
-    Points: points,
-    RebirthCount: rebirthCount,
-    MultiplierLvl: MultiplierLvl,
-    AutoClickerLvl: AutoClickerLvl,
-    ShopItems: shopItems,
-    BoughtJigsaw: boughtJigsaw
-};
+            Points: points,
+            RebirthCount: rebirthCount,
+            MultiplierLvl: MultiplierLvl,
+            AutoClickerLvl: AutoClickerLvl,
+            ShopItems: shopItems,
+            BoughtJigsaw: boughtJigsaw
+        };
 
         localStorage.setItem("save_file", JSON.stringify(saveData));
 
@@ -88,10 +91,7 @@ function App() {
                 setAutoClickerLvl(loadedSave.AutoClickerLvl ?? 0);
                 setBoughtJigsaw(loadedSave.BoughtJigsaw ?? false);
                 setShopItems(
-                    loadedSave.ShopItems ?? [
-                        ["Multiplier", 10],
-                        ["Auto Clicker", 50]
-                    ]
+                    loadedSave.ShopItems ?? defaultShop(loadedSave.BoughtJigsaw ?? false)
                 );
 
                 console.log("Game loaded!");
@@ -119,7 +119,7 @@ function App() {
         setPoints(0)
     }
     function onPressClicker() {
-        
+
         setPoints(prev =>
             prev + (1 + 0.25 * rebirthCount) * MultiplierLvl
         );
@@ -150,15 +150,15 @@ function App() {
                             : item
                     )
                 );
-                
+
             }
             if (name === "Jigsaw Puzzle") {
-            setShopItems(prev =>
-                prev.filter(item => item[0] !== "Jigsaw Puzzle")
-            );
+                setShopItems(prev =>
+                    prev.filter(item => item[0] !== "Jigsaw Puzzle")
+                );
 
-            setBoughtJigsaw(true);
-        }
+                setBoughtJigsaw(true);
+            }
 
             setPoints(prev => prev - cost);
         }
@@ -175,10 +175,8 @@ function App() {
             setMultiplierLvl(1);
             setAutoClickerLvl(0);
 
-            setShopItems([
-                ["Multiplier", 10],
-                ["Auto Clicker", 50]
-            ]);
+            // Keep the jigsaw in the shop only if it hasn't been bought yet
+            setShopItems(defaultShop(boughtJigsaw));
         }
     }
 
@@ -189,82 +187,96 @@ function App() {
     }
 
     if (gameState === "StartScreen") {
+        return (
+            <>
+                <div className={`StartScreen ${isFading ? "fade-out" : ""}`}>
+                    <h1>Clicker Game</h1>
+
+                    <Button
+                        content={"Press Play"}
+                        onPressed={handlePlay}
+                        note={"D3"}
+                        duration={"16n"}
+                    />
+
+                    <Button
+                        content={"Clear Save Data"}
+                        onPressed={onPressClear}
+                    />
+                </div>
+
+                <DoomFire
+                    active={fireActive}
+                    onFinished={() => setFireActive(false)}
+                />
+            </>
+        );
+    }
+
     return (
         <>
-            <div className={`StartScreen ${isFading ? "fade-out" : ""}`}>
-                <h1>Clicker Game</h1>
+            <div className="game-layout">
 
-                <Button
-                    content={"Press Play"}
-                    onPressed={handlePlay}
-                    note={"D3"}
-                    duration={"16n"}
-                />
+                {/* Left: thing to click, plus rebirth and stats */}
+                <section className="left-column">
+                    <Clicker
+                        onPressed={onPressClicker}
+                        points={points}
+                    />
 
-                <Button
-                    content={"Clear Save Data"}
-                    onPressed={onPressClear}
-                />
+                    <div className="rebirth-area">
+                        <Button
+                            content={"Rebirth"}
+                            onPressed={onPressRebirth}
+                        />
+
+                        <h4>
+                            Required points {10 + rebirthCount * 30}
+                        </h4>
+                    </div>
+
+                    <h3>Upgrade Stats</h3>
+
+                    <p>Multiplier Level: {MultiplierLvl}</p>
+                    <p>Auto Clicker Level: {AutoClickerLvl}</p>
+                    <p>Auto Clicker PPS: {AutoClickerLvl * MultiplierLvl}</p>
+                </section>
+
+                {/* Middle: where the jigsaw puzzle goes */}
+                <section className="middle-column">
+                    <JigsawPuzzle increasePoints={increasePoints} shouldRender={boughtJigsaw} />
+                </section>
+
+                {/* Right: shop items */}
+                <aside className="right-column">
+                    <Shop
+                        shop_elements={shopItems}
+                        buy_function={onPressBuy}
+                    />
+                </aside>
+
             </div>
 
-            <DoomFire
-                active={fireActive}
-                onFinished={() => setFireActive(false)}
-            />
-        </>
-    );
-}
-
-    return (
-        <>
-            <Clicker
-                onPressed={onPressClicker}
-                points={points}
-            />
-
-            <div>
+            <div className="footer-bar">
                 <Button
-                    content={"Rebirth"}
-                    onPressed={onPressRebirth}
+                    content={"Save"}
+                    onPressed={onPressSave}
                 />
-
-                <h4>
-                    Required points {10 + rebirthCount * 30}
-                </h4>
+                <Button
+                    content={"[debug] Unlimited money"}
+                    onPressed={d_GetFreeMoney}
+                />
+                <Button
+                    content={"[debug] Pay your taxes"}
+                    onPressed={d_GetTheOppositeOfInfiniteMoney}
+                />
+                {isSaving && (
+                    <h3 className="Saving">Saving...</h3>
+                )}
             </div>
-
-            <h3>Upgrade Stats</h3>
-
-            <p>Multiplier Level: {MultiplierLvl}</p>
-            <p>Auto Clicker Level: {AutoClickerLvl}</p>
-            <p>Auto Clicker PPS: {AutoClickerLvl * MultiplierLvl}</p>
-
-            <Shop
-                shop_elements={shopItems}
-                buy_function={onPressBuy}
-            />
-            
-         
-            <Button
-                content={"Save"}
-                onPressed={onPressSave}
-            />
-            <Button 
-            content={"[debug] Unlimited money"}
-            onPressed={d_GetFreeMoney}
-            />
-            <Button 
-            content={"[debug] Pay your taxes"}
-            onPressed={d_GetTheOppositeOfInfiniteMoney}
-            />
-            {isSaving && (
-                <h3 className="Saving">Saving...</h3>
-            )}
-           <JigsawPuzzle increasePoints={increasePoints} shouldRender = {boughtJigsaw}/>
-            
         </>
     );
-     
+
 }
 
 export default App;

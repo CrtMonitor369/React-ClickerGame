@@ -1,26 +1,58 @@
-button
+/* Shared look: flat box with a neon outline and a hard magenta shadow */
+.Button
 {
-    
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    border-radius: 15%;
-    border-color: rgb(255, 0, 174);
-    background-color: rgb(229, 200, 255);
-    transition:all 0.25s;
+    color: rgb(0, 236, 253);
+    background-color: black;
+    border: 2px solid rgb(0, 236, 253);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 rgb(255, 0, 174);
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s;
 }
-.DownwardMotion 
-{
 
+.Button:hover
+{
+    background-color: rgb(20, 20, 30);
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 0 rgb(255, 0, 174);
+}
+
+.Button:active
+{
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 rgb(255, 0, 174);
+}
+
+.Button:focus-visible
+{
+    outline: 3px solid white;
+    outline-offset: 3px;
+}
+
+/* The big square "thing to click" */
+.Button--square
+{
+    width: 220px;
+    height: 220px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    border-width: 3px;
+    box-shadow: 8px 8px 0 rgb(255, 0, 174);
+}
+
+.Button--square:hover
+{
+    box-shadow: 10px 10px 0 rgb(255, 0, 174);
+}
+
+.Button--square:active
+{
+    transform: translate(8px, 8px);
+}
+
+.DownwardMotion
+{
     transform: scale(120%);
-   
-}
-button:hover
-{
-    transform: scale(110%);
-}
-button:active
-{
-  
-    transform: scale(85%);
-    transition:all 0.25s;
-    
 }
