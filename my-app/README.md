@@ -22,3 +22,9 @@ and then
 
 Write npm run dev in the console inside the folder and then in a browser go to localhost:[the port here]
 
+# Main menu
+![alt text](image-1.png)
+# Game
+![alt text](image.png)
+# Save data erasure
+![alt text](image-2.png)
