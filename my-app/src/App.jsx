@@ -211,7 +211,7 @@ function App() {
                         note={"D3"}
                         duration={"16n"}
                     />
-
+                    
                     <Button
                         content={"Clear Save Data"}
                         onPressed={onPressClear}
@@ -279,18 +279,18 @@ function App() {
                     content={musicOn ? "Music: On" : "Music: Off"}
                     onPressed={() => setMusicOn(prev => !prev)}
                 />
-                <Button
+                {/* <Button
                     content={"[debug] Unlimited money"}
                     onPressed={d_GetFreeMoney}
                 />
                 <Button
                     content={"[debug] Pay your taxes"}
                     onPressed={d_GetTheOppositeOfInfiniteMoney}
-                />
+                /> */}
                 <Button
                     content={"Main Menu"}
                     onPressed={toMainMenu}
-                />
+                />ö
                 {isSaving && (
                     <h3 className="Saving">Saving...</h3>
                 )}

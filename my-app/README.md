@@ -25,6 +25,11 @@ Write npm run dev in the console inside the folder and then in a browser go to l
 # Main menu
 ![alt text](image-1.png)
 # Game
-![alt text](image.png)
+![alt text](image-3.png)
 # Save data erasure
 ![alt text](image-2.png)
+
+
+#### Game guide
+
+Press the button to get points, purchase the upgrades, press the button some more, and eventually rebirth to have even higher of a starting points per click
