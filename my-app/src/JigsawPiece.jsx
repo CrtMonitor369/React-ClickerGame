@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import jigsawImage from "./assets/jigsaw.webp";
 
-//This is written with assistance from AI, but not entirely by AI like the doom fire effect 
+
 
 function JigsawPiece({rot, position, ID, setPosition}) {
  
