@@ -9,8 +9,6 @@ The game's idea is to click a button acrue points, use said points to purchase u
 #### Used technologies : 
 ##### React
 ##### JS
-
-#### Used technologies :
 ##### Tone.js
 
 
@@ -34,4 +32,4 @@ Write npm run dev in the console inside the folder and then in a browser go to l
 
 Press the button to get points, purchase the upgrades, press the button some more, and eventually rebirth to have even higher of a starting points per click
 
-You can use the arrow keys to move a virtual cursor and press enter to do a click, this is useful if you don't have a mouse
+You can use the arrow keys to move a virtual cursor and press enter to do a click, this is useful if you don't have a mouse, otherwise you can just use your mouse

@@ -2,11 +2,11 @@
 
 
 ### The structure of the program
-####    App.jsx is the foundation of everything (ok main.tsx, but nothing is done there)
+####    App.jsx is the foundation of everything (ok main.tsx, but almost nothing is done there)
 ####    In there we have two IF statements controlling the state of the program, you are either on the main screen, or in the game
 ####    Almost all of the state is brought up to the level of App.tsx, the exceptions are mostly the cases where the state is only needed inside of the component
 
-
+#### The pictures used in the game are in the assets folder
 
 
 ### Components structure
@@ -16,7 +16,7 @@
 #### JigsawPuzzle which uses the JigsawPiece component to build a jigsaw puzzle
 #### DoomFire component which is just a graphical effect used upon save data erasure, it draws to the canvas
 #### Shop component, which is a component containing buttons that have purchase functions attached to them
-
+#### Virtual cursor component which adds a virtual cursor
 
 ### Most important solutions and challenges
 
@@ -26,3 +26,8 @@
 ### What I learnt
 
 #### I learnt the usage of react, and how to structure an application in it
+
+### How libraries were used
+
+#### The tone library was used to produce sound effects for some of the buttons, and to produce music procedurally
+
