@@ -18,7 +18,11 @@ function JigsawPiece({rot, position, ID, setPosition}) {
       y: e.clientY - position[1],
     };
 
-    e.currentTarget.setPointerCapture(e.pointerId);
+    try {
+  e.currentTarget.setPointerCapture(e.pointerId);
+} catch {
+  // the virtual cursor has no real pointer to capture
+}
   }
 
   function handlePointerMove(e) {

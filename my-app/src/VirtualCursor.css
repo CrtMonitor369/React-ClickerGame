@@ -1,0 +1,23 @@
+/* Same neon look as the rest of the game: cyan outline, hard magenta shadow */
+.virtual-cursor
+{
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;          /* above the doom fire overlay (9999) */
+    pointer-events: none;    /* so it never blocks the clicks it sends */
+    display: none;
+    filter: drop-shadow(2px 2px 0 rgb(255, 0, 174));
+    will-change: transform;
+}
+
+.virtual-cursor.is-visible
+{
+    display: block;
+}
+
+.virtual-cursor svg
+{
+    display: block;
+    overflow: visible;
+}

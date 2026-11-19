@@ -290,7 +290,7 @@ function App() {
                 <Button
                     content={"Main Menu"}
                     onPressed={toMainMenu}
-                />ö
+                />
                 {isSaving && (
                     <h3 className="Saving">Saving...</h3>
                 )}

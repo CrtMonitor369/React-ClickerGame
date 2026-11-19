@@ -56,3 +56,26 @@
 {
     transform: scale(120%);
 }
+
+.Button.virtual-hover
+{
+    background-color: rgb(20, 20, 30);
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 0 rgb(255, 0, 174);
+}
+
+.Button--square.virtual-hover
+{
+    box-shadow: 10px 10px 0 rgb(255, 0, 174);
+}
+
+.Button.virtual-active
+{
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 rgb(255, 0, 174);
+}
+
+.Button--square.virtual-active
+{
+    transform: translate(8px, 8px);
+}

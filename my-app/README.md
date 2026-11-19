@@ -33,3 +33,5 @@ Write npm run dev in the console inside the folder and then in a browser go to l
 #### Game guide
 
 Press the button to get points, purchase the upgrades, press the button some more, and eventually rebirth to have even higher of a starting points per click
+
+You can use the arrow keys to move a virtual cursor and press enter to do a click, this is useful if you don't have a mouse
