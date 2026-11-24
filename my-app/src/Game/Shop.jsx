@@ -1,4 +1,4 @@
-import "./Shop.css"
+import "../Appearance/./Shop.css"
 import Button from "./Button.jsx"
 
 function Shop({ shop_elements, buy_function }) {

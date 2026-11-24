@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import jigsawImage from "./assets/jigsaw.webp";
+import jigsawImage from "../assets/jigsaw.webp";
 
 
 

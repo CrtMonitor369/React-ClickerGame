@@ -1,4 +1,4 @@
-import "./Button.css";
+import "../Appearance/Button.css";
 import * as Tone from "tone";
 
 // One shared synth instead of creating a new one on every click.

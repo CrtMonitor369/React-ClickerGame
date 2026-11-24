@@ -1,7 +1,7 @@
 
 
 
-import JigsawPiece from "./JigsawPiece";
+import JigsawPiece from "../Game/./JigsawPiece";
 import { useState, useEffect } from "react";
 import * as Tone from "tone";
 

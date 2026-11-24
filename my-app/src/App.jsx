@@ -1,12 +1,12 @@
 
-import Clicker from "./Clicker.jsx";
-import Button from "./Button.jsx";
+import Clicker from "./Game/Clicker.jsx";
+import Button from "./Game/./Button.jsx";
 import { useState, useEffect } from "react";
-import Shop from "./Shop.jsx";
-import "./App.css";
-import DoomFire from "./DoomFire.jsx";
-import JigsawPuzzle from "./JigsawPuzzle.jsx";
-import { initMusic, setMusicMuted } from "./Music.js";
+import Shop from "./Game/./Shop.jsx";
+import "./Appearance/App.css";
+import DoomFire from "./Appearance/DoomFire.jsx";
+import JigsawPuzzle from "./Game/./JigsawPuzzle.jsx";
+import { initMusic, setMusicMuted } from "./Music/Music.js";
 
 // The shop as it looks at the start (and after a rebirth)
 function defaultShop(boughtJigsaw = false) {

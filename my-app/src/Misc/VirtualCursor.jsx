@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import "./VirtualCursor.css";
+import "../Appearance/VirtualCursor.css";
 
 /*
 A mouse pointer you control with the keyboard.
